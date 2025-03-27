@@ -1,0 +1,188 @@
+Q1
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- TextView to Display the Lifecycle State -->
+    <TextView
+        android:id="@+id/lifecycleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activity Lifecycle Demonstration"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="200dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "ActivityLifecycle";
+    private TextView lifecycleTextView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        lifecycleTextView = findViewById(R.id.lifecycleTextView);
+        logAndDisplay("onCreate");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        logAndDisplay("onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        logAndDisplay("onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        logAndDisplay("onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        logAndDisplay("onStop");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        logAndDisplay("onRestart");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        logAndDisplay("onDestroy");
+    }
+
+    // Custom method to log and display the lifecycle state
+    private void logAndDisplay(String state) {
+        Log.d(TAG, state);
+        Toast.makeText(this, state, Toast.LENGTH_SHORT).show();
+        lifecycleTextView.setText("Current State: " + state);
+    }
+}
+
+
+Q2
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- Button to Start Progress Dialog -->
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Progress"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="200dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private Button startButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        startButton = findViewById(R.id.startButton);
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start the AsyncTask
+                new DemoTask().execute();
+            }
+        });
+    }
+
+    // AsyncTask to Perform Background Operation
+    private class DemoTask extends AsyncTask<Void, Integer, String> {
+
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Initialize ProgressDialog
+            progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setMessage("Processing, please wait...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setMax(100);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                // Simulate background work
+                for (int i = 0; i <= 100; i += 10) {
+                    Thread.sleep(500); // Simulate work by sleeping
+                    publishProgress(i); // Update progress
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return "Task Interrupted";
+            }
+            return "Task Completed Successfully";
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            // Update ProgressDialog progress
+            progressDialog.setProgress(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            // Dismiss ProgressDialog
+            progressDialog.dismiss();
+            // Display Result
+            Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
+        }
+    }
+}

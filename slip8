@@ -1,0 +1,151 @@
+Q1. Create an Android App with Login Screen. On successful login, gives message go to next 
+Activity (Without Using Database& use Table Layout) 
+• Activity_main.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:layout_margin="40dp" 
+    tools:context=".MainActivity"> 
+ 
+    <TableLayout 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:padding="16dp"> 
+ 
+        <TableRow> 
+ 
+            <TextView 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:paddingRight="10dp" 
+                android:text="Username" /> 
+ 
+            <EditText 
+                android:id="@+id/usernameEditText" 
+                android:layout_width="304dp" 
+                android:layout_height="wrap_content" 
+                android:inputType="text" /> 
+        </TableRow> 
+ 
+        <TableRow> 
+ 
+            <TextView 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:paddingRight="10dp" 
+                android:text="Password" /> 
+ 
+            <EditText 
+                android:id="@+id/passwordEditText" 
+                android:layout_width="match_parent" 
+                android:layout_height="wrap_content" 
+                android:inputType="textPassword" /> 
+        </TableRow> 
+ 
+        <Button 
+            android:id="@+id/loginButton" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_marginTop="20dp" 
+            android:layout_gravity="center" 
+            android:text="Login" /> 
+ 
+    </TableLayout> 
+ 
+</RelativeLayout> 
+ 
+• MainActivity.java 
+package com.example.slip_8_q1; 
+import … 
+public class MainActivity extends AppCompatActivity { 
+ 
+    private EditText usernameEditText,passwordEditText; 
+    private Button loginButton; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+        usernameEditText = (EditText) findViewById(R.id.usernameEditText); 
+        passwordEditText = (EditText) findViewById(R.id.passwordEditText); 
+        loginButton =(Button) findViewById(R.id.loginButton); 
+ 
+        loginButton.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                String username = usernameEditText.getText().toString(); 
+                String password = passwordEditText.getText().toString(); 
+                if (username.equals("admin") && 
+password.equals("password")) { 
+                    Toast.makeText(MainActivity.this, "Login Successful", 
+Toast.LENGTH_SHORT).show(); 
+                    Intent intent=new 
+Intent(MainActivity.this,MainActivity2.class); 
+                    intent.putExtra("email",username); 
+                    startActivity(intent); 
+                } else { 
+                    Toast.makeText(MainActivity.this, "invalid Input", 
+Toast.LENGTH_SHORT).show(); 
+                } 
+            } 
+        }); 
+    } 
+} 
+• Activity_main2.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:app="http://schemas.android.com/apk/res-auto" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:padding="15dp" 
+    android:orientation="vertical" 
+    tools:context=".MainActivity2"> 
+ 
+    <TextView 
+        android:id="@+id/textView2" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="25dp" /> 
+ 
+    <Button 
+        android:id="@+id/bttn_LogOut" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="20dp" 
+        android:text="Logout" /> 
+     
+</LinearLayout> 
+ 
+• MainActivity2.java 
+package com.example.slip_8_q1; 
+import … 
+public class MainActivity2 extends AppCompatActivity { 
+    private TextView textView; 
+    private Button btnLogOut; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main2); 
+        textView=(TextView) findViewById(R.id.textView2); 
+        btnLogOut=(Button) findViewById(R.id.bttn_LogOut); 
+ 
+        String email=getIntent().getStringExtra("email"); 
+        textView.setText("Welcome"+email); 
+ 
+        btnLogOut.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                Intent intent=new 
+Intent(MainActivity2.this,MainActivity.class); 
+                startActivity(intent); 
+                Toast.makeText(MainActivity2.this, "Logout Succesfully", 
+Toast.LENGTH_SHORT).show(); 
+            } 
+        }); 
+    } 
+} 

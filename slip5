@@ -1,0 +1,236 @@
+• Slip 5 
+Q1. Create an Android Application to accept two numbers and find power and Average. 
+Display the result on the next activity on Button click 
+Solution: 
+• Activity_main.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:app="http://schemas.android.com/apk/res-auto" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="16dp" 
+    tools:context=".MainActivity"> 
+ 
+   <TextView 
+       android:layout_width="match_parent" 
+       android:layout_height="wrap_content" 
+       android:layout_marginTop="50dp" 
+       android:text="Find Power and Average of 2 Numbers" 
+       android:background="#0ef" 
+       android:textSize="20sp" 
+       android:gravity="center"/> 
+        <TextView 
+            android:layout_width="match_parent" 
+            android:layout_height="wrap_content" 
+            android:layout_marginTop="40dp" 
+            android:textSize="20sp" 
+            android:text="Base no"/> 
+       <EditText 
+           android:id="@+id/editTextBaseNo" 
+           android:layout_width="match_parent" 
+           android:layout_height="wrap_content" 
+           android:ems="10" 
+           android:layout_marginTop="10dp" 
+           android:hint="Base No" 
+           android:inputType="number"/> 
+    <TextView 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="30dp" 
+        android:textSize="20sp" 
+        android:text="Exponent no"/> 
+    <EditText 
+        android:id="@+id/editTextExponentNo" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:ems="10" 
+        android:layout_marginTop="10dp" 
+        android:hint="Exponent No" 
+        android:inputType="number"/> 
+    <Button 
+        android:id="@+id/btn_Calculate" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Calculate" 
+        android:layout_gravity="center" 
+        android:layout_marginTop="20dp"/> 
+ 
+</LinearLayout> 
+ 
+• MainActivity.java 
+package com.example.power_avergae; 
+import … 
+public class MainActivity extends AppCompatActivity { 
+    private EditText BaseNo,ExponentNo; 
+    private Button btnCal; 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+        BaseNo=(EditText) findViewById(R.id.editTextBaseNo); 
+        ExponentNo=(EditText) findViewById(R.id.editTextExponentNo); 
+        btnCal=(Button) findViewById(R.id.btn_Calculate); 
+        btnCal.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+          int base=Integer.parseInt(BaseNo.getText().toString()); 
+          int exponent=Integer.parseInt(ExponentNo.getText().toString()); 
+          int result=1; 
+          int power=Integer.parseInt(ExponentNo.getText().toString()); 
+                while(exponent > 0){ 
+                    result *=base; 
+                    exponent --; 
+                } 
+                double average = ( base + power ) / 2; 
+   Toast.makeText(MainActivity.this, ""+result, 
+Toast.LENGTH_SHORT).show();                                            
+Intent intent=new Intent(MainActivity.this,MainActivity2.class); 
+                intent.putExtra("n1",String.valueOf(base)); 
+                intent.putExtra("n2",String.valueOf(power)); 
+                intent.putExtra("power",String.valueOf(result)); 
+                intent.putExtra("avg",String.valueOf(average)); 
+                startActivity(intent); 
+            } 
+        }); 
+    } 
+} 
+ 
+• Activity_main2.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:app="http://schemas.android.com/apk/res-auto" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="20dp" 
+    tools:context=".MainActivity2"> 
+ 
+    <TextView 
+        android:id="@+id/textViewResult" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:textSize="20sp" 
+        android:layout_marginTop="60dp"/> 
+ 
+</LinearLayout> 
+ 
+• MainActivity2.java 
+package com.example.power_avergae; 
+ 
+import… 
+public class MainActivity2 extends AppCompatActivity { 
+ 
+    private TextView textViewResult; 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main2); 
+ 
+        textViewResult=(TextView) findViewById(R.id.textViewResult); 
+ 
+        String base=getIntent().getStringExtra("n1"); 
+        String power=getIntent().getStringExtra("n2"); 
+        String result=getIntent().getStringExtra("power"); 
+        String average=getIntent().getStringExtra("avg"); 
+ 
+        String ans=base + "raised to the power of" + power + "is: " +result 
++ "\n and average is: "+average; 
+        textViewResult.setText(ans); 
+    } 
+} 
+ 
+ 
+Q2. Create an Android application that creates a custom Alert Dialog containing Friends 
+Name and onClick of Friend Name Button greet accordingly.  
+Solution: 
+• Activity_main.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:app="http://schemas.android.com/apk/res-auto" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:padding="16dp" 
+    android:orientation="vertical" 
+    tools:context=".MainActivity"> 
+ 
+    <TextView 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Alert with Friend List" 
+        android:layout_marginTop="50dp" 
+        android:layout_gravity="center" 
+        android:textSize="20sp"/> 
+ 
+    <Button 
+        android:id="@+id/button" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="20dp" 
+        android:text="Show alert" /> 
+ 
+ 
+</LinearLayout> 
+ 
+• MainActivity.java 
+package com.example.slip_5_q2; 
+import…  
+public class MainActivity extends AppCompatActivity { 
+    String[] names = {"Tom", "Bob", "Alice","Trudy", "Fread", "Andy"}; 
+    ArrayAdapter<String> adapter; 
+    ListView listView; 
+    Button btn; 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+        btn=(Button) findViewById(R.id.button); 
+        btn.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+ 
+                AlertDialog.Builder alertDialog = new 
+AlertDialog.Builder(MainActivity.this); 
+ View rowList = getLayoutInflater().inflate(R.layout.activity_main2,null); 
+                listView = rowList.findViewById(R.id.list_view_1); 
+                adapter = new ArrayAdapter<String>(MainActivity.this, 
+android.R.layout.simple_list_item_1, names); 
+                listView.setAdapter(adapter); 
+       listView.setOnItemClickListener((parent, view, position, id) -> { 
+     String selectedItem = parent.getItemAtPosition(position).toString(); 
+                    Random rand = new Random(); 
+                    int randomNum = rand.nextInt(2) + 1; 
+                    String[] mr={"Hello","Hi","Good Morning","Whats up"}; 
+    Toast.makeText(MainActivity.this, mr[randomNum]+" 
+"+selectedItem, Toast.LENGTH_SHORT).show(); 
+                }); 
+                adapter.notifyDataSetChanged(); 
+                alertDialog.setView(rowList); 
+                AlertDialog dialog = alertDialog.create(); 
+                dialog.show(); 
+            } 
+        }); 
+    } 
+} 
+ 
+• Activity_main2.xml 
+
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:app="http://schemas.android.com/apk/res-auto" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    tools:context=".MainActivity2"> 
+    <ListView 
+        android:id="@+id/list_view_1" 
+        android:layout_width="match_parent" 
+        android:layout_height="match_parent"/> 
+ 
+ 
+</LinearLayout> 

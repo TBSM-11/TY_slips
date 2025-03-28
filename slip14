@@ -1,0 +1,116 @@
+Q1. Create a Simple Application which shows Life Cycle of Activity.  {Use log}. 
+Solution: 
+package com.example.log_lifecycle; 
+import… 
+public class MainActivity extends AppCompatActivity { 
+    String tag="Events"; 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+    } 
+    @Override 
+    public void onStart() { 
+        super.onStart(); 
+        Log.d(tag,"In the onStart() event"); 
+    } 
+    @Override 
+    public void onResume() { 
+        super.onResume(); 
+        Log.d(tag,"In the onResume() event"); 
+    } 
+    @Override 
+    public void onPause() { 
+        super.onPause(); 
+        Log.d(tag,"In the onPause() event"); 
+    } 
+    @Override 
+    public void onStop() { 
+        super.onStop(); 
+        Log.d(tag,"In the onStop() event"); 
+    } 
+    @Override 
+    public void onDestroy() { 
+        super.onDestroy(); 
+        Log.d(tag,"In the onDestroy() event"); 
+    } 
+} 
+ 
+Q2. Create the following layout which is changing android spinner text size with styles 
+(Coffee). 
+Soltuion: 
+• Activity_main.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:app="http://schemas.android.com/apk/res-auto" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    tools:context=".MainActivity"> 
+ 
+    <TextView 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:text="Spinner Style" 
+        android:background="#4CF8" 
+        android:textSize="30dp"/> 
+ 
+    <TextView 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="20dp" 
+        android:textSize="20dp" 
+        android:text="Coffee" /> 
+ 
+    <Spinner 
+        android:id="@+id/spinner" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="20dp" 
+        android:prompt="@color/black"/> 
+</LinearLayout> 
+ 
+• MainActivity.java 
+package com.example.spinner; 
+import … 
+public class MainActivity extends AppCompatActivity { 
+    private Spinner spinner1; 
+    float fontsize=16; 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+        spinner1=(Spinner) findViewById(R.id.spinner); 
+        ArrayList<String> list=new ArrayList<String>(); 
+        list.add("Filter"); 
+        list.add("Americano"); 
+        list.add("Latte"); 
+        list.add("Espresso"); 
+        list.add("Cappucino"); 
+        list.add("Mocha"); 
+        list.add("Skinny Latte"); 
+        list.add("Espresso Corretto"); 
+        ArrayAdapter<String> adapter=new ArrayAdapter<>(this, 
+androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,list); 
+        spinner1.setAdapter(adapter); 
+        spinner1.setOnItemSelectedListener(new 
+AdapterView.OnItemSelectedListener() { 
+            @Override 
+            public void onItemSelected(AdapterView<?> adapterView, View 
+view, int i, long l) { 
+                TextView tv=(TextView) adapterView.getChildAt(0); 
+                if(fontsize<50){ 
+                    tv.setTextSize(fontsize); 
+                    fontsize+=2; 
+                }else{ 
+                    fontsize=16; 
+                } 
+            } 
+            @Override 
+            public void onNothingSelected(AdapterView<?> parent) { 
+ 
+            } 
+        }); 
+    } 
+} 

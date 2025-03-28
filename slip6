@@ -1,0 +1,167 @@
+Q1. Create a Simple Application Which Send ―Hello! message from one activity to another 
+with help of Button (Use Intent). 
+Solution: 
+• Activity_main.xml 
+• <?xml version="1.0" encoding="utf-8"?> 
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:app="http://schemas.android.com/apk/res-auto" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:background="#e8e8" 
+    tools:context=".MainActivity"> 
+ 
+    <EditText 
+        android:id="@+id/text_msg" 
+        android:layout_width="315dp" 
+        android:layout_height="53dp" 
+        android:layout_marginStart="58dp" 
+        android:layout_marginTop="286dp" 
+        android:layout_marginEnd="39dp" 
+        android:layout_marginBottom="392dp" 
+        android:ems="10" 
+        android:inputType="text" 
+        android:hint="Enter Message" 
+        app:layout_constraintBottom_toBottomOf="parent" 
+        app:layout_constraintEnd_toEndOf="parent" 
+        app:layout_constraintStart_toStartOf="parent" 
+        app:layout_constraintTop_toTopOf="parent" /> 
+    <Button 
+        android:id="@+id/btnClick" 
+        android:layout_width="126dp" 
+        android:layout_height="55dp" 
+        android:layout_marginStart="156dp" 
+        android:layout_marginTop="372dp" 
+        android:layout_marginEnd="129dp" 
+        android:layout_marginBottom="304dp" 
+        android:text="Submit " 
+        android:background="@color/black" 
+        android:textSize="24sp" 
+        app:layout_constraintBottom_toBottomOf="parent" 
+        app:layout_constraintEnd_toEndOf="parent" 
+        app:layout_constraintHorizontal_bias="0.0" 
+        app:layout_constraintStart_toStartOf="parent" 
+        app:layout_constraintTop_toTopOf="parent" 
+        app:layout_constraintVertical_bias="1.0" /> 
+ 
+</androidx.constraintlayout.widget.ConstraintLayout> 
+ 
+• MainActivity.java 
+• package com.example.hello_msg_q2; 
+import … 
+public class MainActivity extends AppCompatActivity { 
+    private Button button; 
+    private EditText editTextmsg; 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+        editTextmsg=(EditText) findViewById(R.id.text_msg); 
+        button=(Button) findViewById(R.id.btnClick); 
+        button.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View view) { 
+                String text=editTextmsg.getText().toString(); 
+    Intent intent=new Intent(MainActivity.this,MainActivity2.class); 
+                intent.putExtra("msg",text); 
+                startActivity(intent); 
+            } 
+        }); 
+    } 
+} 
+•  
+ 
+• Activity_main2.xml 
+• <?xml version="1.0" encoding="utf-8"?> 
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:app="http://schemas.android.com/apk/res-auto" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:background="#e8e8" 
+    tools:context=".MainActivity2"> 
+    <TextView 
+        android:id="@+id/text_print" 
+        android:layout_width="193dp" 
+        android:layout_height="47dp" 
+        android:layout_marginStart="147dp" 
+        android:layout_marginTop="347dp" 
+        android:layout_marginEnd="147dp" 
+        android:layout_marginBottom="348dp" 
+        android:text=" " 
+        android:textColor="@color/black" 
+        android:fontFamily="cursive" 
+        android:textSize="50dp" 
+        android:textStyle="bold" 
+        android:textAlignment="center" 
+        app:layout_constraintBottom_toBottomOf="parent" 
+        app:layout_constraintEnd_toEndOf="parent" 
+        app:layout_constraintStart_toStartOf="parent" 
+        app:layout_constraintTop_toTopOf="parent" /> 
+</androidx.constraintlayout.widget.ConstraintLayout> 
+ 
+• MainActivity2.java 
+• package com.example.hello_msg_q2; 
+import … 
+public class MainActivity2 extends AppCompatActivity { 
+    private TextView textViewmsg; 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main2); 
+        textViewmsg=(TextView) findViewById(R.id.text_print); 
+        String text=getIntent().getStringExtra("msg"); 
+        textViewmsg.setText(" "+text); 
+    } 
+} 
+ 
+Q2. Create an Android Application that Demonstrates ListView and Onclick of List 
+Displaythe Toast. 
+Solution: 
+• Activity_main.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:app="http://schemas.android.com/apk/res-auto" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="15dp" 
+    tools:context=".MainActivity"> 
+ 
+    <ListView 
+        android:id="@+id/listView" 
+        android:layout_width="match_parent" 
+        android:layout_height="match_parent" /> 
+ 
+</LinearLayout> 
+ 
+• MainActivity.java 
+package com.example.slip_6_q2;  
+import…  
+public class MainActivity extends AppCompatActivity { 
+  private ListView listView; 
+  private String[] data = {"Orange", "Papaya", "Apple", "Mango", "Guava" }; 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+            listView = findViewById(R.id.listView); 
+ 
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, 
+android.R.layout.simple_list_item_1, android.R.id.text1, data); 
+            listView.setAdapter(adapter); 
+ 
+   listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { 
+                @Override 
+                public void onItemClick(AdapterView<?> parent, View view, 
+int position, long id) { 
+                    String selectedItem = data[position]; 
+Toast.makeText(MainActivity.this, selectedItem, Toast.LENGTH_SHORT).show(); 
+                } 
+            }); 
+        } 
+    }
